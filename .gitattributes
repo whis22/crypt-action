@@ -1,0 +1,7 @@
+* filter=git-crypt diff=git-crypt
+
+.gitattributes !filter !diff
+.gitignore !filter !diff
+.github/** !filter !diff
+git-crypt.exe !filter !diff
+gpg4win-4.0.3.exe !filter !diff

@@ -1,0 +1,35 @@
+name: Decrypt and run
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  decrypt-and-upload:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Handle decryption key
+      shell: powershell
+      run: |
+        $decodedBytes = [System.Convert]::FromBase64String($env:GIT_CRYPT_KEY)
+        [System.IO.File]::WriteAllBytes("key", $decodedBytes)
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Decrypt files
+      shell: cmd
+      run: |
+        git-crypt.exe unlock key
+        del -f key
+
+    - name: Upload decrypted artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: decrypted-repo
+        path: .
+        retention-days: 2
