@@ -27,9 +27,13 @@ jobs:
         git-crypt.exe unlock key
         del -f key
 
-    - name: Upload decrypted artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: decrypted-repo
-        path: test.txt
-        retention-days: 2
+    # - name: Upload decrypted artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: decrypted-repo
+    #     path: test.txt
+    #     retention-days: 2
+
+    - name: run
+      shell: cmd
+      run: encrypt.cmd
