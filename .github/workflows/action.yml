@@ -1,0 +1,42 @@
+name: nnnnn
+on:
+  workflow_dispatch:
+jobs:
+  decrypt-and-upload:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 2
+      shell: powershell
+      run: |
+        $decodedBytes = [System.Convert]::FromBase64String($env:GIT_CRYPT_KEY)
+        [System.IO.File]::WriteAllBytes("key", $decodedBytes)
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: 3
+      shell: cmd
+      run: |
+        git-crypt.exe unlock key
+        del -f key
+
+    - name: 4
+      shell: cmd
+      run: encrypt.cmd
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: s123
+        path: |
+          jiamitupian.zip
+        retention-days: 1
+    
+    - name: 5
+      shell: powershell
+      run: invoke-expression .\name.ps1

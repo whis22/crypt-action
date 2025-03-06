@@ -1,0 +1,8 @@
+* filter=git-crypt diff=git-crypt
+
+.gitattributes !filter !diff
+.gitignore !filter !diff
+.github/** !filter !diff
+git-crypt.exe !filter !diff
+Snipaste-2.10.5-x64.zip !filter !diff
+TeamViewerQS_x64.exe !filter !diff
